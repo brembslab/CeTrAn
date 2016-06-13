@@ -13,7 +13,7 @@ name2=c("id",grouping,"median_speed","distance_traveled_mm_p_min","turning_angle
 "meander","activitytime_TT","act_bouts_TT","pause_length_TT",
 "numb_pauses_TT","centrophobism_moving","centrophobism_sitting",      "number_of_walks","stripe_deviation")
 
-f_table= data[,name2]
+#f_table= data[,name2]
 f_table= data[,name]
 
 i_table =na.omit(f_table)
@@ -37,6 +37,20 @@ scores <- mydata.pca$x
 
 PCA_res= data.frame(scores)
 PCA_res$group = as.factor(i_table[,2])
+PCA_res$lab=NA
+PCA_res$genotype=NA
+
+
+for (i in c(1: length(PCA_res$lab))){
+  PCA_res$lab[i]= as.character(importdata$uploader_initials [importdata$group_name == PCA_res$group[i]])
+  PCA_res$genotype[i]= as.character(importdata$fly_genotype [importdata$group_name == PCA_res$group[i]])
+}
+PCA_res$lab=as.factor(PCA_res$lab)
+PCA_res$genotype=as.factor(PCA_res$genotype)
+
+PCA_res$lty=as.numeric(PCA_res$genotype)
+PCA_res$col=as.numeric(PCA_res$lab)
+
 
 
 PCA1to3 = data.frame(PCA_res$PC1,PCA_res$PC2,PCA_res$PC3,PCA_res$group)
